@@ -4,12 +4,45 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-    image: mnyagura/client:v1.0
+    image: mnyagura/client:v0.3
     ports:
       - 3000:3000
     networks:
       frontend-net:
         ipv4_address: 172.51.0.101
+    depends_on:
+      - backend
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: mnyagura/backend:v0.3
+    ports:
+      - 5000:5000
+    environment:
+      PORT: 5000
+      MONGODB_URI: 'mongodb://backend:backend@172.100.0.101:27017'
+    networks:
+      backend-net:
+        ipv4_address: 172.100.0.100
+      frontend-net:
+        ipv4_address: 172.51.0.100
+    depends_on:
+      - database
+
+  database:
+    container_name: backend_database
+    ports:
+      - 27017:27017
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mydb
+      MONGO_INITDB_ROOT_PASSWORD: mydb
+    networks:
+      backend-net:
+        ipv4_address: 172.100.0.101
 
 networks:
   frontend-net:
@@ -17,3 +50,8 @@ networks:
       driver: default
       config:
         - subnet: 172.51.0.0/16
+  backend-net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.100.0.0/16
