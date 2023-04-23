@@ -38,8 +38,8 @@ services:
       - 27017:27017
     image: mongo:latest
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mydb
-      MONGO_INITDB_ROOT_PASSWORD: mydb
+      MONGO_INITDB_ROOT_USERNAME: backend
+      MONGO_INITDB_ROOT_PASSWORD: backend
     networks:
       backend-net:
         ipv4_address: 172.100.0.101
