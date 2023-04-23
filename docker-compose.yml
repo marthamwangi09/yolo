@@ -43,6 +43,8 @@ services:
     networks:
       backend-net:
         ipv4_address: 172.100.0.101
+    volumes:
+      - backend_volume:/data/db
 
 networks:
   frontend-net:
@@ -55,3 +57,6 @@ networks:
       driver: default
       config:
         - subnet: 172.100.0.0/16
+
+volumes:
+  backend_volume:
