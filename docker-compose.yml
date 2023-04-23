@@ -1,0 +1,19 @@
+services:
+  client:
+    container_name: client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: mnyagura/client:v1.0
+    ports:
+      - 3000:3000
+    networks:
+      frontend-net:
+        ipv4_address: 172.51.0.101
+
+networks:
+  frontend-net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.51.0.0/16
